@@ -12,10 +12,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import in.novopay.platform_ui.utils.BasePage;
-import in.novopay.platform_ui.utils.CommonUtils;
 
 public class AutomationPage extends BasePage {
-	CommonUtils commonUtils = new CommonUtils(wdriver);
 
 	public AutomationPage(WebDriver wdriver) {
 		super(wdriver);
@@ -135,7 +133,7 @@ public class AutomationPage extends BasePage {
 			waitUntilElementIsVisible(icon);
 			System.out.println("Pop-up displayed");
 
-			waitUntilElementIsClickableForFinoAndClickTheElement(proceedCheckout);
+			waitUntilElementIsClickableAndClickTheElement(proceedCheckout);
 			System.out.println("Proceed to Checkout button clicked");
 			
 			waitUntilElementIsVisible(yourShoppingCart);

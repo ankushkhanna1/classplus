@@ -54,8 +54,6 @@ public class FlowMapper {
 		this.usrData = usrData;
 		Log.info("Executing --> " + usrData.get("TCID"));
 
-		javaUtils.getWalletFromIni("StoreWallet", usrData.get("WALLET"));
-
 		for (String flowTestID : flows) {
 			if ((!usrData.get(flowTestID).equalsIgnoreCase("SKIP")) && (!usrData.get(flowTestID).isEmpty())) {
 				testCaseID = usrData.get(flowTestID);
@@ -110,17 +108,14 @@ public class FlowMapper {
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (NoSuchFieldException e) {
-					wdriver.navigate().refresh();
 					e.printStackTrace();
 				} catch (SecurityException e) {
 					e.printStackTrace();
 				} catch (InstantiationException e) {
 					e.printStackTrace();
 				} catch (WebDriverException e) {
-					wdriver.navigate().refresh();
 					e.printStackTrace();
 				} catch (Exception e) {
-					wdriver.navigate().refresh();
 					throw e.getCause();
 				}
 			}
@@ -161,9 +156,8 @@ public class FlowMapper {
 			failureReason = errMsg;
 			failureReason = stepNo + ": " + testCaseID + ": " + result.getThrowable() + "";
 		}
-		String[] execeutionDtls = { usrData.get("TCID"), usrData.get("CONTRACT"), usrData.get("FEATURE"),
-				usrData.get("DESCRIPTION"), javaUtils.getExecutionResultStatus(result.getStatus()), failureReason,
-				testStartTime, testEndTime };
+		String[] execeutionDtls = { usrData.get("TCID"), usrData.get("DESCRIPTION"),
+				javaUtils.getExecutionResultStatus(result.getStatus()), failureReason, testStartTime, testEndTime };
 		javaUtils.writeExecutionStatusToExcel(execeutionDtls);
 
 	}
