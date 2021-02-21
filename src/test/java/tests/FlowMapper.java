@@ -23,10 +23,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import in.novopay.platform_ui.utils.BasePage;
-import in.novopay.platform_ui.utils.DBUtils;
 import in.novopay.platform_ui.utils.JavaUtils;
 import in.novopay.platform_ui.utils.Log;
-import in.novopay.platform_ui.utils.MongoDBUtils;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 
@@ -35,8 +33,6 @@ public class FlowMapper {
 	public WebDriver wdriver;
 	private String sheetName = "FLOWMAPPER";
 	private JavaUtils javaUtils = new JavaUtils();
-	private DBUtils dbUtils = new DBUtils();
-	MongoDBUtils mongoDbUtils = new MongoDBUtils();
 	private Map<String, String> usrData;
 	private Object obj;
 	private String errMsg;
@@ -44,7 +40,7 @@ public class FlowMapper {
 	private String stepNo = "";
 	private String className = "";
 	private String currentPackage = "";
-	private String classNameWithPackage, workbook = "WebAppUITestData", pack;
+	private String classNameWithPackage, workbook = "TestData", pack;
 	private Set<String> flows;
 	private BasePage wBasePage = new BasePage(wdriver);
 
@@ -57,17 +53,6 @@ public class FlowMapper {
 	public void flowMapperTest(HashMap<String, String> usrData) throws Throwable {
 		this.usrData = usrData;
 		Log.info("Executing --> " + usrData.get("TCID"));
-		if (!usrData.get("CONTRACT").equalsIgnoreCase("-")) {
-			dbUtils.modifyContract(usrData.get("CONTRACT"), javaUtils.getLoginMobileFromIni("RetailerMobNum"));
-		}
-		if (usrData.get("FEATURE").equalsIgnoreCase("Banking")) {
-			dbUtils.updateRBLEKYCStatus("APPROVED", mobileNumFromIni());
-		} else if (usrData.get("FEATURE").equalsIgnoreCase("EKYC")) {
-			dbUtils.updateRBLEKYCStatus("PENDING", mobileNumFromIni());
-		} else if (usrData.get("CONTRACT").equalsIgnoreCase("CMS")) {
-			mongoDbUtils.updateCMSBillerOrder(usrData.get("FEATURE"), "1");
-			javaUtils.cmsDetailsFromIni("StoreCmsBiller", usrData.get("FEATURE"));
-		}
 
 		javaUtils.getWalletFromIni("StoreWallet", usrData.get("WALLET"));
 
@@ -181,17 +166,5 @@ public class FlowMapper {
 				testStartTime, testEndTime };
 		javaUtils.writeExecutionStatusToExcel(execeutionDtls);
 
-		if (!usrData.get("CONTRACT").equalsIgnoreCase("-")) {
-			System.out.println("Inserting all contracts");
-			dbUtils.insertContract(javaUtils.getLoginMobileFromIni("RetailerMobNum"));
-		}
-		if (usrData.get("CONTRACT").equalsIgnoreCase("CMS")) {
-			mongoDbUtils.updateCMSBillerOrder(usrData.get("FEATURE"), "2");
-		}
-	}
-
-	// Get mobile number from Ini file
-	public String mobileNumFromIni() {
-		return dbUtils.getLoginMobileFromIni("RetailerMobNum");
 	}
 }

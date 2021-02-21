@@ -50,20 +50,14 @@ public class BasePage extends JavaUtils {
 		// local machine
 		String browser = configProperties.get("browser");
 
-		if (browser.equalsIgnoreCase("Firefox")) {
-			System.setProperty("webdriver.gecko.marionette", "./drivers/geckodriver.exe");
-			wdriver = new FirefoxDriver();
-
-		} else if (browser.equalsIgnoreCase("Chrome")) {
-			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
-			Map<String, Object> prefs = new HashMap<String, Object>();
-			prefs.put("profile.default_content_setting_values.notifications", 1);
-			prefs.put("profile.default_content_settings.geolocation", 1);
-			ChromeOptions options = new ChromeOptions();
-			options.setExperimentalOption("prefs", prefs);
-			wdriver = new ChromeDriver(options);
-		}
-		String url = configProperties.get("webAppUrl");
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+		Map<String, Object> prefs = new HashMap<String, Object>();
+		prefs.put("profile.default_content_setting_values.notifications", 1);
+		prefs.put("profile.default_content_settings.geolocation", 1);
+		ChromeOptions options = new ChromeOptions();
+		options.setExperimentalOption("prefs", prefs);
+		wdriver = new ChromeDriver(options);
+		String url = "http://automationpractice.com/";
 		wdriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		wdriver.get(url);
 		wdriver.manage().window().maximize();
@@ -103,16 +97,17 @@ public class BasePage extends JavaUtils {
 		wdriver.close();
 		System.out.println("Tab is closed");
 	}
-	
+
 	/**
 	 * Close the tab
-	 * @throws InterruptedException 
+	 * 
+	 * @throws InterruptedException
 	 */
 	public void closeTabAndSwitchBack() throws InterruptedException {
 
 		wdriver.close();
 		System.out.println("Tab is closed");
-		
+
 		ArrayList<String> tabs = new ArrayList<String>(wdriver.getWindowHandles());
 		Thread.sleep(1000);
 		wdriver.switchTo().window(tabs.get(0)); // switch to previous tab
@@ -344,7 +339,7 @@ public class BasePage extends JavaUtils {
 		WebDriverWait wait = new WebDriverWait(wdriver, 90);
 		wait.until(ExpectedConditions.visibilityOf(element));
 	}
-	
+
 	/**
 	 * Wait until rbl account validation element is visible
 	 */
@@ -386,7 +381,7 @@ public class BasePage extends JavaUtils {
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 		clickElement(element);
 	}
-	
+
 	/**
 	 * Wait until Submit element is clickable and click the element
 	 */
@@ -395,7 +390,7 @@ public class BasePage extends JavaUtils {
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 		clickElement(element);
 	}
-	
+
 	/**
 	 * Wait until Submit element is clickable and click the element for Fino
 	 */
@@ -450,16 +445,16 @@ public class BasePage extends JavaUtils {
 //		Actions dragger = new Actions(wdriver);
 		int numberOfPixelsToDragTheScrollbarDown = 50;
 //		while (true) {
-			try {
-				// this causes a gradual drag of the scroll bar downwards, 10 units at a time
+		try {
+			// this causes a gradual drag of the scroll bar downwards, 10 units at a time
 //				dragger.moveToElement(scrollbar).clickAndHold().moveByOffset(0, numberOfPixelsToDragTheScrollbarDown)
 //						.release().perform();
-				waitUntilElementIsClickableAndClickTheElement(elementToClick);
+			waitUntilElementIsClickableAndClickTheElement(elementToClick);
 //				break;
-			} catch (Exception e1) {
-				numberOfPixelsToDragTheScrollbarDown = numberOfPixelsToDragTheScrollbarDown + 10;
-			}
+		} catch (Exception e1) {
+			numberOfPixelsToDragTheScrollbarDown = numberOfPixelsToDragTheScrollbarDown + 10;
 		}
+	}
 //	}
 
 	// Scroll down the page
