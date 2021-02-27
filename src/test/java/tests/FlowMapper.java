@@ -25,11 +25,8 @@ import org.testng.annotations.Test;
 import in.novopay.platform_ui.utils.BasePage;
 import in.novopay.platform_ui.utils.JavaUtils;
 import in.novopay.platform_ui.utils.Log;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 
 public class FlowMapper {
-	public AndroidDriver<MobileElement> mdriver;
 	public WebDriver wdriver;
 	private String sheetName = "FLOWMAPPER";
 	private JavaUtils javaUtils = new JavaUtils();

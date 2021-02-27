@@ -20,6 +20,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
@@ -39,6 +40,7 @@ public class BasePage extends JavaUtils {
 	public WebDriver launchBrowser() {
 
 		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+		wdriver = new ChromeDriver();
 		String url = "http://automationpractice.com/";
 		wdriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 		wdriver.get(url);
@@ -142,7 +144,7 @@ public class BasePage extends JavaUtils {
 	 * Wait until web element is visible
 	 */
 	public void waitUntilElementIsVisible(WebElement element) {
-		WebDriverWait wait = new WebDriverWait(wdriver, 90);
+		WebDriverWait wait = new WebDriverWait(wdriver, 10);
 		wait.until(ExpectedConditions.visibilityOf(element));
 	}
 
@@ -150,7 +152,7 @@ public class BasePage extends JavaUtils {
 	 * Wait until web element is invisible
 	 */
 	public void waitUntilElementIsInvisible(String xpath) {
-		WebDriverWait wait = new WebDriverWait(wdriver, 60);
+		WebDriverWait wait = new WebDriverWait(wdriver, 10);
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
 	}
 
@@ -158,7 +160,7 @@ public class BasePage extends JavaUtils {
 	 * Wait until web element is clickable and click the element
 	 */
 	public void waitUntilElementIsClickableAndClickTheElement(WebElement element) {
-		WebDriverWait wait = new WebDriverWait(wdriver, 60);
+		WebDriverWait wait = new WebDriverWait(wdriver, 10);
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 		clickElement(element);
 	}
@@ -167,7 +169,7 @@ public class BasePage extends JavaUtils {
 	 * Wait until web element is clickable
 	 */
 	public void waitUntilElementIsClickable(WebElement element) {
-		WebDriverWait wait = new WebDriverWait(wdriver, 60);
+		WebDriverWait wait = new WebDriverWait(wdriver, 10);
 		wait.until(ExpectedConditions.elementToBeClickable(element));
 	}
 

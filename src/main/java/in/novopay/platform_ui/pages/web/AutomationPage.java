@@ -68,7 +68,7 @@ public class AutomationPage extends BasePage {
 	@FindBy(xpath = "//p/a[@title='Proceed to checkout']/span[contains(text(),'Proceed to checkout')]")
 	WebElement checkout;
 
-	@FindBy(xpath = "//*[@type='checkbox']")
+	@FindBy(xpath = "//*[@type='checkbox']/parent::span")
 	WebElement checkbox;
 
 	@FindBy(xpath = "//p[@class='fancybox-error']")

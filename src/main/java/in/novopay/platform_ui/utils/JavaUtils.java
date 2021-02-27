@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Set;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -35,16 +34,7 @@ import org.testng.SkipException;
 
 @SuppressWarnings("rawtypes")
 public class JavaUtils extends LoadableComponent {
-	String stri;
-	String fileName;
-	static String failureReason;
 	public static HashMap<String, String> configProperties = new HashMap<String, String>();
-	String assertionMessage;
-	Properties velocityProps;
-	public static String buildNo;
-	public static String session;
-	public static HashMap<byte[], String> imageByte = new HashMap<byte[], String>();
-	public static Map<String, String> testExecutionTime = new HashMap<String, String>();
 
 	/* Read the properties file and returns a 'Value' for a particular 'Key' */
 	public HashMap<String, String> readConfigProperties() {
