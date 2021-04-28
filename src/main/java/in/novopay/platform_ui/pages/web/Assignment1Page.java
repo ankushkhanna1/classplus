@@ -1,184 +1,137 @@
 package in.novopay.platform_ui.pages.web;
-
+//Assignment 1
+/**
+1. Go to https://www.amazon.in. 
+2. Once page is loaded, search for iPhone 12 (128GB) - Blue. 
+3. Select the matching iPhone once list appears. 
+4. Get the price of the selected iPhone. 
+5. Now, go to https://www.flipkart.com/. 
+6. Repeat steps 2 to 4 and get the price. 
+7. Compare the price on both the website and determine which website has lesser value for the iPhone 
+   and print the final result on the console. 
+*
+* @author Ankush Khanna
+*/
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import in.novopay.platform_ui.utils.BasePage;
 
-public class AutomationPage extends BasePage {
+public class Assignment1Page extends BasePage {
 
-	public AutomationPage(WebDriver wdriver) {
+	public Assignment1Page(WebDriver wdriver) {
 		super(wdriver);
 		PageFactory.initElements(wdriver, this);
 	}
 
-	@FindBy(xpath = "//a[@title='Women']")
-	WebElement womenButton;
+	@FindBy(xpath = "//a[@aria-label='Amazon']")
+	WebElement amazonPageTitle;
 
-	@FindBy(id = "search_query_top")
-	WebElement searchField;
+	@FindBy(id = "twotabsearchtextbox")
+	WebElement amazonSearchField;
 
-	@FindBy(xpath = "//a[@title='Return to Home']")
-	WebElement homeButton;
+	@FindBy(id = "nav-search-submit-button")
+	WebElement amazonSearchButton;
 
-	@FindBy(xpath = "//div[@class='right-block']//span[@itemprop='price'][contains(text(),'$27')]/parent::div/following-sibling::div/a[@title='Add to cart']")
-	WebElement addToCart;
+	@FindBy(id = "productTitle")
+	WebElement amazonProductTitle;
 
-	@FindBy(xpath = "//i[@class='icon-ok']")
-	WebElement icon;
+	@FindBy(id = "priceblock_ourprice")
+	WebElement amazonProductPrice;
 
-	@FindBy(xpath = "//span[contains(text(),'Proceed to checkout')]")
-	WebElement proceedCheckout;
+	@FindBy(xpath = "//button[contains(text(),'✕')]")
+	WebElement flipkartCloseButton;
 
-	@FindBy(xpath = "//*[@id='our_price_display']")
-	WebElement displayPrice;
-	
-	@FindBy(xpath = "//span[@class='navigation_page'][contains(text(),'Your shopping cart')]")
-	WebElement yourShoppingCart;
-	
-	@FindBy(xpath = "//span[@class='navigation_page'][contains(text(),'Authentication')]")
-	WebElement authentication;
-	
-	@FindBy(xpath = "//span[@class='navigation_page'][contains(text(),'Addresses')]")
-	WebElement addresses;
-	
-	@FindBy(xpath = "//button/span[contains(text(),'Proceed to checkout')]")
-	WebElement proceedToCheckout;
-	
-	@FindBy(xpath = "//span[@class='navigation_page'][contains(text(),'Shipping')]")
-	WebElement shipping;
+	@FindBy(xpath = "//img[@title='Flipkart']")
+	WebElement flipkartPageTitle;
 
-	@FindBy(xpath = "//*[@id='color_to_pick_list']/li/a[@name='White']")
-	WebElement color;
+	@FindBy(xpath = "//input[contains(@title,'Search')]")
+	WebElement flipkartSearchField;
 
-	@FindBy(xpath = "//label[contains(text(),'Size')]/following-sibling::div//select")
-	WebElement size;
+	@FindBy(xpath = "//button[@type='submit']")
+	WebElement flipkartSearchButton;
 
-	@FindBy(xpath = "//button/span[contains(text(),'Add to cart')]")
-	WebElement addToCartButton;
+	@FindBy(xpath = "//span[contains(text(),'Filters')]")
+	WebElement flipkartFilters;
 
-	@FindBy(xpath = "//p/a[@title='Proceed to checkout']/span[contains(text(),'Proceed to checkout')]")
-	WebElement checkout;
-
-	@FindBy(xpath = "//*[@type='checkbox']/parent::span")
-	WebElement checkbox;
-
-	@FindBy(xpath = "//p[@class='fancybox-error']")
-	WebElement error;
-	
-	@FindBy(xpath = "//*[@title='Close']")
-	WebElement close;
-
-	@FindBy(xpath = "//span[@class='navigation_page'][contains(text(),'Your payment method')]")
-	WebElement payment;
-	
-	@FindBy(id = "email")
-	WebElement email;
-
-	@FindBy(id = "passwd")
-	WebElement password;
-
-	@FindBy(id = "SubmitLogin")
-	WebElement SubmitLogin;
-
-	public void automation(Map<String, String> usrData) throws ClassNotFoundException, InterruptedException {
-
-		waitUntilElementIsVisible(searchField);
-		System.out.println("My Store page displayed");
+	public void assignment1(Map<String, String> usrData) throws ClassNotFoundException, InterruptedException {
 
 		try {
-			waitUntilElementIsClickableAndClickTheElement(womenButton);
-			System.out.println("Women button clicked");
-			waitUntilElementIsVisible(homeButton);
-			System.out.println("Women page is displayed");
+			// Opening Amazon website to get the price of iPhone
+			wdriver.get("https://www.amazon.in/");
+			waitUntilElementIsVisible(amazonPageTitle);
+			System.out.println("Amazon page displayed");
 
-			Actions actions = new Actions(wdriver);
-			String priceXpath = "//div[@class='right-block']//span[@itemprop='price'][contains(text(),'$"
-					+ usrData.get("PRICE") + "')]";
-			WebElement price = wdriver.findElement(By.xpath(priceXpath));
-			actions.moveToElement(price).perform();
-			System.out.println("Mouse hovered on Product with $27 price");
+			waitUntilElementIsClickableAndClickTheElement(amazonSearchField);
+			amazonSearchField.sendKeys(usrData.get("AMAZON_MODEL_NAME"));
+			waitUntilElementIsClickableAndClickTheElement(amazonSearchButton);
 
-			String quickViewXpath = "//div[@class='left-block']//span[@itemprop='price'][contains(text(),'$"
-					+ usrData.get("PRICE") + "')]/parent::div/preceding-sibling::a/img";
-			WebElement quickView = wdriver.findElement(By.xpath(quickViewXpath));
-			waitUntilElementIsClickableAndClickTheElement(quickView);
-			System.out.println("Clicked on Product's QuickView part");
+			String amazonListItemXpath = "//a[contains(@class,'text-normal')]//span[contains(text(),'"
+					+ usrData.get("AMAZON_MODEL_NAME") + "')]";
+			waitUntilElementIsClickableAndClickTheElement(wdriver.findElement(By.xpath(amazonListItemXpath)));
 
-			waitUntilElementIsVisible(displayPrice);
-			Assert.assertEquals(displayPrice.getText(), "$" + usrData.get("PRICE") + ".00");
-			System.out.println("Display Price is " + displayPrice.getText());
+			ArrayList<String> amazonTab = new ArrayList<String>(wdriver.getWindowHandles());
+			wdriver.switchTo().window(amazonTab.get(1)); // switch to next tab
+			waitUntilElementIsVisible(amazonProductTitle);
 
-			int rowCount = wdriver.findElements(By.xpath("//*[@id='color_to_pick_list']/li")).size();
-			if (rowCount>1) {
-				waitUntilElementIsClickableAndClickTheElement(color);
-				System.out.println("Another color selected");
+			saveOrGetPrice("Amazon", "SavePrice", replaceSymbols(amazonProductPrice.getText()));
+			System.out.println("Price of " + usrData.get("AMAZON_MODEL_NAME") + " is "
+					+ replaceSymbols(amazonProductPrice.getText()));
+
+			wdriver.close(); // close the tab
+			wdriver.switchTo().window(amazonTab.get(0)); // switch to previous window
+
+			// Opening Flipkart website to get the price of iPhone
+			wdriver.get("https://www.flipkart.com/");
+			waitUntilElementIsClickableAndClickTheElement(flipkartCloseButton);
+
+			waitUntilElementIsVisible(flipkartPageTitle);
+			System.out.println("Flipkart page displayed");
+
+			waitUntilElementIsClickableAndClickTheElement(flipkartSearchField);
+			flipkartSearchField.sendKeys(usrData.get("FLIPKART_MODEL_NAME"));
+			waitUntilElementIsClickableAndClickTheElement(flipkartSearchButton);
+
+			waitUntilElementIsVisible(flipkartFilters);
+
+			String listItemXpath = "//div[contains(text(),'" + usrData.get("FLIPKART_MODEL_NAME") + "')]";
+			waitUntilElementIsClickableAndClickTheElement(wdriver.findElement(By.xpath(listItemXpath)));
+
+			ArrayList<String> flipkartTab = new ArrayList<String>(wdriver.getWindowHandles());
+			wdriver.switchTo().window(flipkartTab.get(1));
+			String productTitleXpath = "//h1/span[contains(text(),'" + usrData.get("FLIPKART_MODEL_NAME") + "')]";
+			waitUntilElementIsVisible(wdriver.findElement(By.xpath(productTitleXpath)));
+
+			String productPriceXpath = "//h1/span[contains(text(),'" + usrData.get("FLIPKART_MODEL_NAME")
+					+ "')]/parent::h1/parent::div/following-sibling::div[3]/div/div/div";
+			WebElement productPrice = wdriver.findElement(By.xpath(productPriceXpath));
+			saveOrGetPrice("Flipkart", "SavePrice", replaceSymbols(productPrice.getText()));
+			System.out.println(
+					"Price of " + usrData.get("FLIPKART_MODEL_NAME") + " is " + replaceSymbols(productPrice.getText()));
+
+			double amazonPrice = Double.parseDouble(saveOrGetPrice("Amazon", "GetPrice", ""));
+			double flipkartPrice = Double.parseDouble(saveOrGetPrice("Flipkart", "GetPrice", ""));
+			DecimalFormat df = new DecimalFormat("#.00");
+			String lowerValue = df.format(Math.min(amazonPrice, flipkartPrice));
+			if (lowerValue.equals(saveOrGetPrice("Amazon", "GetPrice", ""))) {
+				System.out.println("------------\nAmazon has lesser iPhone price: "
+						+ saveOrGetPrice("Amazon", "GetPrice", "") + "\n------------");
+			} else if (lowerValue.equals(saveOrGetPrice("Flipkart", "GetPrice", ""))) {
+				System.out.println("------------\nFlipkart has lesser iPhone price: "
+						+ saveOrGetPrice("Flipkart", "GetPrice", "") + "\n------------");
 			}
 			
-			Select sizeOption = new Select(size);
-			sizeOption.selectByVisibleText("M");
-			System.out.println("Size selected");
-			
-			waitUntilElementIsClickableAndClickTheElement(addToCartButton);
-			System.out.println("Add to cart button clicked");
-			
-			waitUntilElementIsVisible(icon);
-			System.out.println("Pop-up displayed");
-
-			waitUntilElementIsClickableAndClickTheElement(proceedCheckout);
-			System.out.println("Proceed to Checkout button clicked");
-			
-			waitUntilElementIsVisible(yourShoppingCart);
-			System.out.println("Cart page displayed");
-			
-			waitUntilElementIsClickableAndClickTheElement(checkout);
-			System.out.println("Proceed to Checkout button clicked");
-			
-			waitUntilElementIsVisible(authentication);
-			System.out.println("Authentication page displayed");
-			
-			email.sendKeys(usrData.get("EMAIL"));
-			password.sendKeys(usrData.get("PASSWORD"));
-			
-			waitUntilElementIsClickableAndClickTheElement(SubmitLogin);
-			
-			waitUntilElementIsVisible(addresses);
-			System.out.println("Address page displayed");
-			
-			waitUntilElementIsClickableAndClickTheElement(proceedToCheckout);
-			System.out.println("Proceed to Checkout button clicked");
-			
-			waitUntilElementIsVisible(shipping);
-			System.out.println("Shipping page displayed");
-			
-			waitUntilElementIsClickableAndClickTheElement(proceedToCheckout);
-			System.out.println("Proceed to Checkout button clicked");
-			
-			waitUntilElementIsClickableAndClickTheElement(error);
-			System.out.println(error.getText());
-			
-			waitUntilElementIsClickableAndClickTheElement(close);
-			System.out.println("Pop-up closed");
-			
-			waitUntilElementIsClickableAndClickTheElement(checkbox);
-			System.out.println("Checkbox selected");
-			
-			waitUntilElementIsClickableAndClickTheElement(proceedToCheckout);
-			System.out.println("Proceed to Checkout button clicked");
-			
-			waitUntilElementIsVisible(payment);
-			System.out.println("Payments page displayed");
-			System.out.println("End of the test case");
+			wdriver.close(); // close the tab
+			wdriver.switchTo().window(flipkartTab.get(0)); // switch to previous window
 		} catch (Exception e) {
-			wdriver.navigate().refresh();
 			e.printStackTrace();
 			System.out.println("Test Case Failed");
 			Assert.fail();

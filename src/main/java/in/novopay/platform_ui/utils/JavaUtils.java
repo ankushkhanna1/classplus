@@ -5,11 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +27,6 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 import org.openqa.selenium.support.ui.LoadableComponent;
-import org.testng.Reporter;
-import org.testng.SkipException;
 
 @SuppressWarnings("rawtypes")
 public class JavaUtils extends LoadableComponent {
@@ -61,56 +57,6 @@ public class JavaUtils extends LoadableComponent {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	public String checkExecutionStatus(String workbook, String sheetName, String testCaseID) {
-
-		HashMap<String, String> testRow = readExcelData(workbook, sheetName, testCaseID);
-
-		/*
-		 * Checks the execution status of the current testCaseID which is set in the
-		 * Excel - TestData sheet if marked 'Yes' testCase would execute , else testCase
-		 * would skip
-		 */
-		if (testRow.get("Execution Status").toLowerCase().equalsIgnoreCase("no")) {
-			throw new SkipException(
-					"Skipping the test flow with ID " + testCaseID + " as it marked 'NO' in the Execution Excel Sheet");
-		}
-
-		Reporter.log("\nExecuting the " + testRow.get("Test Description") + " : " + testCaseID, true);
-		return testCaseID;
-	}
-
-	/* Returns the values in column1 of the TestData in an ArrayList */
-	public ArrayList<String> returnRowsUniqueValueBasedOnClassName(String sheetName, Class<?> className) {
-
-		String[] clsParts = className.getName().split("\\.");
-		String clsName = clsParts[(clsParts.length) - 1];
-		// String[] allValues = null;
-		ArrayList<String> allValues = new ArrayList<String>();
-		try {
-			FileInputStream file = new FileInputStream("./test-data/SLIUITestData.xlsx");
-			Workbook wb = WorkbookFactory.create(file);
-			Sheet sheet = wb.getSheet(sheetName);
-			Iterator<Row> it = sheet.rowIterator();
-
-			while (it.hasNext()) {
-
-				Row record = it.next();
-				String cellValue = record.getCell(1).toString() + "".trim();
-				if (cellValue.equalsIgnoreCase(clsName)) {
-					allValues.add(record.getCell(0).toString() + "".trim());
-				}
-			}
-			return allValues;
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			throw new NullPointerException("Failed due to NullPointerException" + e);
-		} catch (EncryptedDocumentException e) {
-			throw new EncryptedDocumentException("Failed due to EncryptedDocumentException" + e);
-		} catch (IOException e) {
-			throw new NullPointerException("Failed due to IOException" + e);
-		}
 	}
 
 	/*
@@ -190,71 +136,6 @@ public class JavaUtils extends LoadableComponent {
 
 	}
 
-	//
-
-	public HashMap<Integer, String[]> returnRowsUniqueValueBasedOnClassNameList(String sheetName, Class<?> className) {
-
-		String[] clsParts = className.getName().split("\\.");
-		String clsName = clsParts[(clsParts.length) - 1];
-		// String[] allValues = null;
-
-		HashMap<Integer, String[]> allValues = new HashMap<Integer, String[]>();
-		try {
-			FileInputStream file = new FileInputStream("./test-data/TestData.xlsx");
-			Workbook wb = WorkbookFactory.create(file);
-			Sheet sheet = wb.getSheet(sheetName);
-			Iterator<Row> it = sheet.rowIterator();
-			int i = 0;
-			while (it.hasNext()) {
-
-				Row record = it.next();
-				String cellValue = record.getCell(1).toString() + "";
-				if (cellValue.equalsIgnoreCase(clsName)) {
-					allValues.put(i, new String[] { record.getCell(0).toString(), record.getCell(5).toString(),
-							record.getCell(6).toString(), record.getCell(7).toString() });
-					i++;
-				}
-			}
-			return allValues;
-		} catch (NullPointerException e) {
-			throw new NullPointerException("Failed due to NullPointerException" + e);
-		} catch (EncryptedDocumentException e) {
-			throw new EncryptedDocumentException("Failed due to EncryptedDocumentException" + e);
-		} catch (IOException e) {
-			throw new NullPointerException("Failed due to IOException" + e);
-		}
-	}
-	//
-
-	/*
-	 * Returns the ArrayList to Two-Dimensional Object array for dataProvider
-	 * Iteration
-	 */
-	public Object[][] returnAllUniqueValues(String sheetName, Class<?> className) {
-
-		ArrayList<String> listValues = returnRowsUniqueValueBasedOnClassName(sheetName, className);
-
-		Object[][] allValues = new Object[listValues.size()][1];
-		for (int i = 0; i < listValues.size(); i++) {
-			allValues[i][0] = listValues.get(i);
-		}
-		return allValues;
-	}
-
-	public Object[][] returnAllUniqueValuesInArray(String sheetName, Class<?> className) {
-
-		HashMap<Integer, String[]> listValues = returnRowsUniqueValueBasedOnClassNameList(sheetName, className);
-
-		Object[][] allValues = new Object[listValues.size()][];
-
-		for (int i = 0; i < listValues.size(); i++) {
-			allValues[i] = new Object[listValues.get(i).length];
-			allValues[i] = listValues.get(i);
-		}
-
-		return allValues;
-	}
-
 	public Object[][] returnAllUniqueValuesInMap(String workbookName, String sheetName, String testType) {
 
 		List<HashMap<String, String>> listValues = returnRowsUniqueValueBasedOnTestTypeList(workbookName, sheetName,
@@ -266,47 +147,6 @@ public class JavaUtils extends LoadableComponent {
 			allValues[i][0] = listValues.get(i);
 		}
 		return allValues;
-	}
-
-	/*
-	 * Puts all the excels rows from startRowValue to endRowValue and returns
-	 * Two-Dimensional Object array for dataProvider Iteration
-	 */
-	public Object[][] returnRowsUniqueValueInArray(String sheetName, String startRowValue, String endRowValue) {
-
-		Object[][] values = new String[3][1];
-		try {
-			FileInputStream file = new FileInputStream("./test-data/TestData.xlsx");
-			Workbook wb = WorkbookFactory.create(file);
-			Sheet sheet = wb.getSheet(sheetName);
-			Iterator<Row> it = sheet.rowIterator();
-
-			while (it.hasNext()) {
-
-				Row record = it.next();
-				String cellValue = record.getCell(0).toString();
-				if (cellValue.equalsIgnoreCase(startRowValue)) {
-					int j = 0;
-
-					while (!(record.getCell(0).toString().equalsIgnoreCase(endRowValue))) {
-						values[j][0] = record.getCell(0).toString();
-						j++;
-						record = it.next();
-					}
-					values[j][0] = record.getCell(0).toString();
-					break;
-				}
-				break;
-			}
-		} catch (NullPointerException e) {
-			throw new NullPointerException("Failed due to NullPointerException" + e);
-		} catch (EncryptedDocumentException e) {
-			throw new EncryptedDocumentException("Failed due to EncryptedDocumentException" + e);
-		} catch (IOException e) {
-			throw new NullPointerException("Failed due to IOException" + e);
-		}
-
-		return values;
 	}
 
 	public HashMap<String, String> readExcelData(String workbook, String sheetname, String uniqueValue) {
@@ -355,12 +195,6 @@ public class JavaUtils extends LoadableComponent {
 		} catch (IOException e) {
 			throw new NullPointerException("Failed due to IOException" + e);
 		}
-	}
-
-	public String getTodaysDate(String format) {
-		Format formatter = new SimpleDateFormat(format);
-		String todaysDate = formatter.format(new Date());
-		return todaysDate;
 	}
 
 	/*
@@ -444,6 +278,40 @@ public class JavaUtils extends LoadableComponent {
 		calendar.setTimeInMillis(millisec);
 		String executionTime = simpleDateFormat.format(calendar.getTime());
 		return executionTime;
+	}
+
+	// Save Or Get the Price from ini file
+	public String saveOrGetPrice(String company, String type, String price) {
+		Ini ini;
+		try {
+			ini = new Ini(new File("./data.ini"));
+			if (company.equalsIgnoreCase("Amazon")) {
+				if (type.equalsIgnoreCase("SavePrice")) {
+					ini.put("ProductData", "AmazonPrice", price);
+					ini.store();
+					return ini.get("ProductData", "AmazonPrice");
+				} else if (type.equalsIgnoreCase("GetPrice")) {
+					return ini.get("ProductData", "AmazonPrice");
+				}
+			} else if (company.equalsIgnoreCase("Flipkart")) {
+				if (type.equalsIgnoreCase("SavePrice")) {
+					ini.put("ProductData", "FlipkartPrice", price);
+					ini.store();
+					return ini.get("ProductData", "FlipkartPrice");
+				} else if (type.equalsIgnoreCase("GetPrice")) {
+					return ini.get("ProductData", "FlipkartPrice");
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	// Remove rupee symbol and comma from the string
+	public String replaceSymbols(String value) {
+		String editedElement = value.replaceAll("₹", "").replaceAll(",", "").trim();
+		return editedElement;
 	}
 
 	@Override

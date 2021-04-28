@@ -14,17 +14,17 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import in.novopay.platform_ui.pages.web.AutomationPage;
+import in.novopay.platform_ui.pages.web.Assignment1Page;
 import in.novopay.platform_ui.utils.BasePage;
 import in.novopay.platform_ui.utils.JavaUtils;
 
-public class AutomationTest {
-	String featureName = "Automation";
+public class Assignment1Test {
+	String featureName = "Assignment1";
 	public static WebDriver wdriver;
 	private BasePage mBasePage = new BasePage(wdriver);
-	private AutomationPage wAutomationPage;
+	private Assignment1Page wAssignment1Page;
 	private Map<String, String> usrData;
-	public String sheetname = "AutomationPage", workbook = "TestData";
+	public String sheetname = "Assignment1Page", workbook = "TestData";
 	private JavaUtils javaUtils = new JavaUtils();
 
 	// Start adding all the page objects below this line
@@ -34,7 +34,7 @@ public class AutomationTest {
 	}
 
 	@Test(dataProvider = "getData")
-	public void automationTest(HashMap<String, String> usrData) throws ClassNotFoundException, InterruptedException {
+	public void assignment1Test(HashMap<String, String> usrData) throws ClassNotFoundException, InterruptedException {
 		this.usrData = usrData;
 		if (wdriver == null) {
 			System.out.println("LAUNCHING THE WEB APP FOR FLOW : " + usrData.get("TCID"));
@@ -43,8 +43,8 @@ public class AutomationTest {
 			System.out.println("LAUNCHING THE WEB APP FOR FLOW : " + usrData.get("TCID"));
 		}
 
-		wAutomationPage = new AutomationPage(wdriver);
-		wAutomationPage.automation(usrData);
+		wAssignment1Page = new Assignment1Page(wdriver);
+		wAssignment1Page.assignment1(usrData);
 	}
 
 	@AfterClass

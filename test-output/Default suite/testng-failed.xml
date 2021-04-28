@@ -5,7 +5,7 @@
     <classes>
       <class name="tests.FlowMapper">
         <methods>
-          <include name="flowMapperTest" invocation-numbers="0"/>
+          <include name="flowMapperTest" invocation-numbers="1"/>
           <include name="result"/>
           <include name="killDriver"/>
           <include name="generateIniFile"/>

@@ -37,7 +37,7 @@ public class FlowMapper {
 	private String stepNo = "";
 	private String className = "";
 	private String currentPackage = "";
-	private String classNameWithPackage, workbook = "TestData", pack;
+	private String classNameWithPackage, workbook = "TestData";
 	private Set<String> flows;
 	private BasePage wBasePage = new BasePage(wdriver);
 
@@ -57,17 +57,10 @@ public class FlowMapper {
 				currentPackage = getClass().getPackage().getName();
 				className = testCaseID.split("_")[0];
 
-				classNameWithPackage = currentPackage + ".api." + className;
 				Class<?> flow = null;
 				stepNo = flowTestID;
-				try {
-					flow = Class.forName(classNameWithPackage);
-					pack = "api";
-				} catch (ClassNotFoundException e) {
-					classNameWithPackage = currentPackage + ".ui." + className;
-					flow = Class.forName(classNameWithPackage);
-					pack = "ui";
-				}
+				classNameWithPackage = currentPackage + ".ui." + className;
+				flow = Class.forName(classNameWithPackage);
 
 				String pattern = Character.toLowerCase((className + "Test").charAt(0))
 						+ (className + "Test").substring(1, (className).length());
@@ -82,21 +75,13 @@ public class FlowMapper {
 						if (m.find()) {
 							String sheetname = obj.getClass().getDeclaredField("sheetname").get(obj).toString();
 							String workbook = obj.getClass().getDeclaredField("workbook").get(obj).toString();
-							// write if condition to switch if api class is
-							if (pack.equals("api")) {
-								HashMap<String, String> data = javaUtils.readExcelData(workbook, sheetname,
-										usrData.get(flowTestID));
-								method[i].invoke(obj, data);
-							} else {
-								HashMap<String, String> data = javaUtils.readExcelData(workbook, sheetname,
-										usrData.get(flowTestID));
+							HashMap<String, String> data = javaUtils.readExcelData(workbook, sheetname,
+									usrData.get(flowTestID));
 
-								Field webDriver = obj.getClass().getDeclaredField("wdriver");
-								webDriver.set(obj, wdriver);
-								method[i].invoke(obj, data);
-								wdriver = (WebDriver) webDriver.get(obj);
-							}
-
+							Field webDriver = obj.getClass().getDeclaredField("wdriver");
+							webDriver.set(obj, wdriver);
+							method[i].invoke(obj, data);
+							wdriver = (WebDriver) webDriver.get(obj);
 						}
 					}
 
@@ -119,6 +104,7 @@ public class FlowMapper {
 		}
 	}
 
+	// Taking data from excel
 	@DataProvider
 	public Object[][] getData() throws EncryptedDocumentException, InvalidFormatException, IOException {
 		Object[][] data = javaUtils.returnAllUniqueValuesInMap(workbook, sheetName, "no-check");
@@ -133,6 +119,7 @@ public class FlowMapper {
 		return data;
 	}
 
+	// Closing web browser
 	@AfterClass
 	public void killDriver() {
 
@@ -141,7 +128,7 @@ public class FlowMapper {
 		}
 	}
 
-	// STORING EXECUTION RESULTS IN EXCEL
+	// Storing execution results in excel
 	@AfterMethod
 	public void result(ITestResult result) throws InvalidFormatException, IOException, ClassNotFoundException {
 

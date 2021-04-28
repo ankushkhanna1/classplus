@@ -51,7 +51,7 @@
               <ul>
                 <li>
                   <a href="#" panel-name="test-xml-Default_suite" class="navigator-link ">
-                    <span>C:\Users\Ankush Khanna\AppData\Local\Temp\testng-eclipse--811460433\testng-customsuite.xml</span>
+                    <span>C:\Users\Ankush Khanna\AppData\Local\Temp\testng-eclipse-2010581297\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -93,7 +93,7 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">1 method,   1 passed</span>
+                    <span class="method-stats">2 methods,   2 passed</span>
                   </li>
                   <li>
                     <span class="method-list-title passed">Passed methods</span>
@@ -104,7 +104,12 @@
                     <div class="method-list-content passed suite-Default_suite">
                       <span>
                         <img src="passed.png" width="3%"/>
-                        <a href="#" panel-name="suite-Default_suite" title="tests.FlowMapper" class="method navigator-link" hash-for-method="flowMapperTest({RUNMODE=Yes, DESCRIPTION=Positive flow, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=AutomationTe...)">flowMapperTest({RUNMODE=Yes, DESCRIPTION=Positive flow, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=AutomationTe...)</a> <!-- method navigator-link -->
+                        <a href="#" panel-name="suite-Default_suite" title="tests.FlowMapper" class="method navigator-link" hash-for-method="flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 1, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment1Te...)">flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 1, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment1Te...)</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-Default_suite" title="tests.FlowMapper" class="method navigator-link" hash-for-method="flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 2, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment2Te...)">flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 2, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment2Te...)</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content passed suite-Default_suite -->
@@ -127,10 +132,18 @@
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="flowMapperTest({RUNMODE=Yes, DESCRIPTION=Positive flow, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=AutomationTe...)">
-                  </a> <!-- flowMapperTest({RUNMODE=Yes, DESCRIPTION=Positive flow, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=AutomationTe...) -->
+                  <a name="flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 1, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment1Te...)">
+                  </a> <!-- flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 1, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment1Te...) -->
                   <span class="method-name">flowMapperTest</span>
-                  <span class="parameters">({RUNMODE=Yes, DESCRIPTION=Positive flow, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=AutomationTest_001})</span>
+                  <span class="parameters">({RUNMODE=Yes, DESCRIPTION=Assignment 1, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment1Test_001})</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
+                  <a name="flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 2, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment2Te...)">
+                  </a> <!-- flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 2, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment2Te...) -->
+                  <span class="method-name">flowMapperTest</span>
+                  <span class="parameters">({RUNMODE=Yes, DESCRIPTION=Assignment 2, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment2Test_001})</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
@@ -138,7 +151,7 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\Ankush Khanna\AppData\Local\Temp\testng-eclipse--811460433\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\Ankush Khanna\AppData\Local\Temp\testng-eclipse-2010581297\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -187,11 +200,15 @@ data.addColumn('number', 'Number');
 data.addColumn('string', 'Method');
 data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
-data.addRows(1);
+data.addRows(2);
 data.setCell(0, 0, 0)
 data.setCell(0, 1, 'flowMapperTest')
 data.setCell(0, 2, 'tests.FlowMapper')
-data.setCell(0, 3, 64366);
+data.setCell(0, 3, 40597);
+data.setCell(1, 0, 1)
+data.setCell(1, 1, 'flowMapperTest')
+data.setCell(1, 2, 'tests.FlowMapper')
+data.setCell(1, 3, 25329);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
@@ -228,16 +245,24 @@ return data;
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-suite before -->
               <div class="test-method">
-                <span class="method-name">flowMapperTest({RUNMODE=Yes, DESCRIPTION=Positive flow, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=AutomationTe...)</span>
-                <span class="method-start">1090 ms</span>
+                <span class="method-name">flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 1, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment1Te...)</span>
+                <span class="method-start">917 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-method after">
                 <span class="method-name">result([TestResult name=flowMapperTest status=SUCCESS method=FlowMapper.flowMapperTest(java.util.HashMap)[p...)</span>
-                <span class="method-start">65464 ms</span>
+                <span class="method-start">41530 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="test-method">
+                <span class="method-name">flowMapperTest({RUNMODE=Yes, DESCRIPTION=Assignment 2, TCID=FlowMapper_001, TESTTYPE=Positive, STEP01=Assignment2Te...)</span>
+                <span class="method-start">42052 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method after">
+                <span class="method-name">result([TestResult name=flowMapperTest status=SUCCESS method=FlowMapper.flowMapperTest(java.util.HashMap)[p...)</span>
+                <span class="method-start">67383 ms</span>
               </div> <!-- configuration-method after -->
               <div class="configuration-class after">
                 <span class="method-name">killDriver</span>
-                <span class="method-start">66068 ms</span>
+                <span class="method-start">67438 ms</span>
               </div> <!-- configuration-class after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
